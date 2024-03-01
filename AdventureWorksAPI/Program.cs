@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using AdventureWorksAPI.Data;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers(); // Uncomment this line
 
 builder.Services.AddDbContext<MySampleDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MySqlConnection")));
@@ -23,6 +25,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
+app.UseAuthorization();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 
 app.Run();
